@@ -223,7 +223,11 @@ class Haanna(object):
             log_type = 'boiler_state'
         locator = "appliance[type='heater_central']/logs/point_log[type='" \
                   + log_type+"']/period/measurement"
-        return root.find(locator).text == 'on'
+        # Return none if smile doesn't do DHW
+        if root.find(locator):
+          return root.find(locator).text == 'on'
+        else:
+          return None
 
     def get_domestic_hot_water_status(self, root):
         """
